@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Curved Background</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <style>
+    body{
+        overflow: hidden;
+    }
+   
+.curved-section {
+   
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    color: white;
+    padding: 120px 0;
+    position: relative;
+    text-align: center;
+   
+    padding-bottom: 0px !important;
+    margin-bottom: 50px;
+    
+}
+
+
+.curve {
+   
+    margin-bottom: -5px;
+}
+.quiz-container {
+            max-width: 600px;
+            margin: 50 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          
+        }
+        label{
+    float: left;
+    padding-left: 7px;
+}
+.form-check .form-check-input {
+    margin-left: -19px;
+   
+}
+.quiz-container{
+    padding-top: 50px;
+}
+.form-check{
+    background-color: #ffffff;
+    color: black;
+    border-radius: 10px;
+    margin-bottom: 7px;
+}
+#question-text{
+    text-align: left;
+    font-weight: 600;
+}
+.btn-primary{
+    background-color:#c2e9fb !important;
+    border: none;
+    color: black;
+    
+}
+.btn-primary:hover{
+    color: black;
+    font-weight: bold;
+}
+
+.form-check-input {
+
+background-color:#c2e9fb;
+}
+.text-above {
+    position: absolute;
+    top: 105px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    color: #73c7ee;
+    max-width: 80vw;
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+@media only screen and (max-width: 768px) {
+    .text-above {
+        width: 60vw;
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .text-above {
+        width: 70vw;
+        font-size: 14px;
+    }
+}
+
+ </style>
+    </head>
+    <body>
+
+        <section class="curved-section">
+            <div class="container text-center ">
+                <div class="container quiz-container mx-auto  curve">
+                    <h4 class="text-center text-above">Basic Math Quiz</h4>
+                    <div id="question-container" class>
+                        <p id="question-text" class="pt-4"></p>
+                        <div id="answers-container"></div>
+                        <button id="next-btn"
+                            class="btn btn-primary mt-3 ps-5 pe-5"
+                            onclick="nextQuestion()">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <svg class="curve" viewBox="0 0 1440 320">
+                <path fill="white"
+                    d="M0,256L80,229.3C160,203,320,149,480,149.3C640,149,800,203,960,213.3C1120,224,1280,192,1360,176L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+            </svg>
+        </section>
+        <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const questions = [
+        { question: "Q1) What is 2 + 2?", answers: ["3", "4", "5", "10"], correct: "4" },
+        { question: "Q2) What is 3 + 3?", answers: ["5", "6", "7", "0"], correct: "6" },
+        { question: "Q3) What is 5 + 2?", answers: ["6", "7", "8", "8"], correct: "7" },
+        { question: "Q4) What is 8 - 3?", answers: ["4", "5", "6", "2"], correct: "5" },
+        { question: "Q5) What is 10 / 2?", answers: ["4", "5", "6", "1"], correct: "5" }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const questionData = questions[currentQuestionIndex];
+        document.getElementById("question-text").textContent = questionData.question;
+        const answersContainer = document.getElementById("answers-container");
+        answersContainer.innerHTML = "";
+
+        questionData.answers.forEach(answer => {
+            const div = document.createElement("div");
+            div.classList.add("form-check");
+            div.innerHTML = `
+                <input class="form-check-input answer" type="radio" name="answer" value="${answer}">
+                <label class="form-check-label">${answer}</label>
+            `;
+            answersContainer.appendChild(div);
+        });
+
+        document.querySelectorAll(".answer").forEach(answer => {
+            answer.addEventListener("change", function () {
+                if (this.value === questions[currentQuestionIndex].correct) {
+                    score++;
+                }
+                nextQuestion();
+            });
+        });
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+        } else {
+            const container = document.getElementById("question-container");
+            if (container) {
+                container.innerHTML = `<h4 class='text-center'>Quiz Completed!</h4>
+                <p class='text-center'>Your Score: ${score} / ${questions.length}</p>`;
+            }
+        }
+    }
+
+    loadQuestion();
+});
+
+</script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</html>
